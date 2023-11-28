@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 
 export default function CreatePost({loggedUser}) {
 
-  const [body, setBody] = useState("")
+  const [body, setBody] = useState("xyz")
   const [image, setImage] = useState("")
   const [url, setUrl] = useState("")
   const navigate = useNavigate()
@@ -48,15 +48,16 @@ export default function CreatePost({loggedUser}) {
     console.log(body, image);
     const data = new FormData()
     data.append("file", image)
-    data.append("upload_preset", "insta-clone")
-    data.append("cloud_name", "itsnitishkumar")
+    data.append("upload_preset", "Melanoma");
+    data.append("cloud_name", "dgmvs5fih");
 
-    fetch("https://api.cloudinary.com/v1_1/itsnitishkumar/image/upload",{
+    fetch("https://api.cloudinary.com/v1_1/dgmvs5fih/image/upload", {
       method: "post",
-      body: data
-    }).then(res => res.json())
-    .then(data => setUrl(data.url))
-    .catch(err => console.log(err))
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => setUrl(data.url))
+      .catch((err) => console.log(err));
 
     
   }
@@ -70,34 +71,49 @@ export default function CreatePost({loggedUser}) {
   }
     
   return (
-    <div className='createPost'>
-        
-        {/* header */}
-        <div className="post-header">
-            <h4 style={{margin: "3px auto"}}>Create New Post</h4>
-            <button id='post-btn' onClick={()=>{postDetails()}}>Share</button>
+    <div className="createPost">
+      {/* header */}
+      <div className="post-header">
+        <h4 style={{ margin: "3px auto" }}>New Uplaod</h4>
+        <button
+          id="post-btn"
+          onClick={() => {
+            postDetails();
+          }}
+        >
+          Share
+        </button>
+      </div>
+
+      {/* image preview */}
+      <div className="main-div">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/1160/1160358.png"
+          alt=""
+          id="output"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(event) => {
+            loadfile(event);
+            setImage(event.target.files[0]);
+          }}
+        />
+      </div>
+
+      {/* details */}
+      <div className="details">
+        <div className="card-header">
+          <div className="card-pic">
+            <img src={loggedUser.Photo ? loggedUser.Photo : picLink} alt="" />
+          </div>
+          <h5>{JSON.parse(localStorage.getItem("user")).name}</h5>
         </div>
 
-        {/* image preview */}
-        <div className="main-div">
-            <img src="https://cdn-icons-png.flaticon.com/512/1160/1160358.png" alt="" id='output'/>
-            <input type="file" accept='image/*' 
-            onChange={(event) => {
-              loadfile(event) 
-              setImage(event.target.files[0])
-            }}/>
-        </div>
-
-        {/* details */}
-        <div className="details">
-            <div className="card-header">
-                <div className="card-pic">
-                    <img src={loggedUser.Photo ? loggedUser.Photo : picLink} alt="" />
-                </div>
-                <h5>{JSON.parse(localStorage.getItem("user")).name}</h5>
-            </div>
-            <textarea type="text" placeholder='Write a caption' value={body} onChange={(e)=>{setBody(e.target.value)}}></textarea>
-        </div>
+        {/* //  <textarea type="text" placeholder='Write a caption' value={body} onChange={(e)=>{setBody(e.target.value)}}></textarea> */}
+      </div>
     </div>
-  )
+  );
 }
+

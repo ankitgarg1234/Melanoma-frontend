@@ -9,16 +9,17 @@ export default function ProfilePic({changeProfile}) {
     // posting image to cloudinary
     const postDetails = () => {
         const data = new FormData()
-        data.append("file", image)
-        data.append("upload_preset", "insta-clone")
-        data.append("cloud_name", "itsnitishkumar")
+      data.append("file", image);
+      data.append("upload_preset", "Melanoma");
+      data.append("cloud_name", "dgmvs5fih");
 
-        fetch("https://api.cloudinary.com/v1_1/itsnitishkumar/image/upload",{
-        method: "post",
-        body: data
-        }).then(res => res.json())
-        .then(data => setUrl(data.url))
-        .catch(err => console.log(err))
+        fetch("https://api.cloudinary.com/v1_1/dgmvs5fih/image/upload", {
+          method: "post",
+          body: data,
+        })
+          .then((res) => res.json())
+          .then((data) => setUrl(data.url))
+          .catch((err) => console.log(err));
     }
 
     const postPic = ()=>{

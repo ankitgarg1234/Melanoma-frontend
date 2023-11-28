@@ -64,7 +64,7 @@ export default function UserProfile() {
   
 
   return (
-    <div className='profile'>
+    <div className="profile">
       {/* profile frame */}
       <div className="profile-frame">
         <div className="profile-pic">
@@ -72,53 +72,61 @@ export default function UserProfile() {
         </div>
         {/* profile-data */}
         <div className="profile-data">
-          <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-            <h1>{ user.name}</h1>
-            
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <h1>{user.name}</h1>
+
             {/* logic to show follow button to all the user except the logged in user */}
-            {
-              userid == JSON.parse(localStorage.getItem("user"))._id 
-            ? 
-              "" 
-            :
-              <button className="followBtn" 
-              onClick={
-                ()=> { 
-                  if(isFollow){
-                    unfollowUser(user._id)
+            {userid == JSON.parse(localStorage.getItem("user"))._id ? (
+              ""
+            ) : (
+              <button
+                className="followBtn"
+                onClick={() => {
+                  if (isFollow) {
+                    unfollowUser(user._id);
                   } else {
-                    followUser(user._id)
+                    followUser(user._id);
                   }
                 }}
               >
-                {isFollow ? "Unfollow" : "Follow"}
+                {isFollow ? "Disconnect" : "Connect"}
               </button>
-            }
-
+            )}
           </div>
-          <div className="profile-info" style={{display: "flex"}}>
-            <p>{posts.length} posts</p>
-            <p>{user.followers ? user.followers.length : "0"} followers</p>
-            <p>{user.following ? user.following.length : "0"} following</p>
+          <div className="profile-info" style={{ display: "flex" }}>
+            <p>{posts.length} uploads</p>
+            <p>{user.followers ? user.followers.length : "0"} Monitorees</p>
+            <p>{user.following ? user.following.length : "0"} Monitoring</p>
           </div>
         </div>
       </div>
 
-      <hr style={{width: "90%", opacity:"0.8", margin: "25px auto"}}/>
+      <hr style={{ width: "90%", opacity: "0.8", margin: "25px auto" }} />
 
       {/* Gallery */}
       <div className="gallery">
-        {posts.map((pics)=>{
-          return <img key={pics._id} src={pics.photo} 
-        //   onClick={()=>{toggleDetails(pics)}}
-          className='item' alt="" />
+        {posts.map((pics) => {
+          return (
+            <img
+              key={pics._id}
+              src={pics.photo}
+              //   onClick={()=>{toggleDetails(pics)}}
+              className="item"
+              alt=""
+            />
+          );
         })}
       </div>
 
       {/* {show &&
         <PostDetail item={posts} toggleDetails={toggleDetails}/>
       } */}
-
     </div>
-  )
+  );
 }

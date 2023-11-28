@@ -147,23 +147,9 @@ export default function MyFollowingPost() {
 
               {/* card content */}
               <div className="card-content">
-                {
-                  posts.likes.includes(JSON.parse(localStorage.getItem("user"))._id) 
-                  ?
-                  (
-                    <span className="material-symbols-outlined material-symbols-outlined-red" onClick={()=> unlikePost(posts._id)}>
-                      favorite
-                    </span>
-                  )
-                  :
-                  (
-                    <span className="material-symbols-outlined" onClick={()=> likePost(posts._id)}>
-                      favorite
-                    </span>
-                  )
-                }
+               
                 
-                <p>{posts.likes.length} Likes</p>
+               
                 <p>{posts.body}</p>
                 <p style={{fontWeight: "bold", cursor: "pointer"}} onClick= {()=>{toggleComment(posts)}}>View all comments</p>
               </div>

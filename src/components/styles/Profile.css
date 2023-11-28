@@ -29,10 +29,10 @@
     text-align: center;
 }
 
-.gallery img{
+/* .gallery img{
     width: 30%;
     margin: 10px
-}
+} */
 
 .followBtn {
     cursor: pointer;
@@ -67,4 +67,12 @@
 
 .changePic div {
     padding: 15px 80px;
+}
+
+.item{
+    width:30%;
+    margin:10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: black;
+    
 }
