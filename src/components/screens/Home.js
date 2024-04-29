@@ -1,128 +1,140 @@
-import React,{useEffect, useState} from 'react'
-import '../styles/Home.css'
-import {useNavigate} from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-
-
+import React, { useEffect, useState } from "react";
+import "../styles/Home.css";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import Carousel from "../Carousel/Carousel";
+import Generate from "../PdfGenerator/Generate";
+import Bot from "../Chatbot/Bot.js"
 export default function Home() {
-
-  const navigate = useNavigate()
-  var picLink = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
-  const [data, setData] = useState([])
-  const [comment, setComment] = useState("")
-  const [show, setShow] = useState(false)
-  const [item, setItem] = useState([])
-
+  const navigate = useNavigate();
+  var picLink = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png";
+  const [data, setData] = useState([]);
+  const [comment, setComment] = useState("");
+  const [show, setShow] = useState(false);
+  const [item, setItem] = useState([]);
+  // <Carousel images={images} /> use this to add crousels in your app
   //Toast functions
-  const notifyA = (data)=> toast.error(data)
-  const notifyB = (data)=> toast.success(data)
-
+  const notifyA = (data) => toast.error(data);
+  const notifyB = (data) => toast.success(data);
+  const images = [
+    "http://res.cloudinary.com/dgmvs5fih/image/upload/v1701238010/ghtvi6wxz04wdx8haoe9.jpg",
+    "http://res.cloudinary.com/dgmvs5fih/image/upload/v1701238010/ghtvi6wxz04wdx8haoe9.jpg",
+    "http://res.cloudinary.com/dgmvs5fih/image/upload/v1701238010/ghtvi6wxz04wdx8haoe9.jpg",
+  ];
   useEffect(() => {
-    const token = localStorage.getItem("jwt")
-    if(!token){
-      navigate("./signup")
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      navigate("./signup");
     }
 
-  //fetching all the posts
-  fetch("http://localhost:5001/allPosts",{
-    method: "get",
-    headers: {
-      "Content-Type" : "application/json",
-      "Authorization" : "Bearer " + localStorage.getItem("jwt")
-    },
-  }).then(res=>res.json())
-  .then(result=> setData(result))
-  .catch(err => console.log(err))
-  },[])
+    //fetching all the posts
+    fetch("http://localhost:5001/allPosts", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => setData(result))
+      .catch((err) => console.log(err));
+  }, []);
 
   //to show and hide all comments
-  const toggleComment = (posts)=> {
-    if(show){
+  const toggleComment = (posts) => {
+    if (show) {
       setShow(false);
-    }else{
+    } else {
       setShow(true);
-      setItem(posts)
+      setItem(posts);
     }
-  }
-  
-  const likePost = (id)=>{
+  };
+
+  const likePost = (id) => {
     fetch("http://localhost:5001/like", {
       method: "put",
       headers: {
-        "Content-Type" : "application/json",
-        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        postId: id
-      })
-    }).then(res=> res.json())
-    .then((result)=>{
-      const newData = data.map((posts)=>{
-        if(posts._id === result._id){
-          return result
-        }else{
-          return posts
-        }
-      })
-      setData(newData)
+        postId: id,
+      }),
     })
-  }
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = data.map((posts) => {
+          if (posts._id === result._id) {
+            return result;
+          } else {
+            return posts;
+          }
+        });
+        setData(newData);
+      });
+  };
 
-  const unlikePost = (id)=>{
+  const unlikePost = (id) => {
     fetch("http://localhost:5001/unlike", {
       method: "put",
       headers: {
-        "Content-Type" : "application/json",
-        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        postId: id
-      })
-    }).then(res=> res.json())
-    .then((result)=>{
-      const newData = data.map((posts)=>{
-        if(posts._id === result._id){
-          return result
-        }else{
-          return posts
-        }
-      })
-      setData(newData)
+        postId: id,
+      }),
     })
-  }
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = data.map((posts) => {
+          if (posts._id === result._id) {
+            return result;
+          } else {
+            return posts;
+          }
+        });
+        setData(newData);
+      });
+  };
 
-  const makeComment = (text, id)=>{
+  const makeComment = (text, id) => {
     fetch("http://localhost:5001/comment", {
       method: "put",
       headers: {
-        "Content-Type" : "application/json",
-        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
         text: text,
-        postId: id
-      })
-    }).then(res=> res.json())
-    .then((result)=>{
-      const newData = data.map((posts)=>{
-        if(posts._id === result._id){
-          return result
-        }else{
-          return posts
-        }
-      })
-      setData(newData)
-      setComment("")
-      notifyB("Comment Posted ")
-      console.log(result);
+        postId: id,
+      }),
     })
-  }
-
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = data.map((posts) => {
+          if (posts._id === result._id) {
+            return result;
+          } else {
+            return posts;
+          }
+        });
+        setData(newData);
+        setComment("");
+        notifyB("Comment Posted ");
+        console.log(result);
+      });
+  };
   return (
     <div className="home">
       {/* card */}
       {data.map((posts) => {
+        let images = [];
+        images[0]=(posts.photo);
+        images[1]=(posts.photo);
+        console.log(images);
+         console.log(images.length);
         return (
           <div className="card" key={posts._id}>
             {/* card header */}
@@ -139,21 +151,26 @@ export default function Home() {
             </div>
 
             {/* card image */}
-            <div className="card-image">
+            {/* original code*/}
+            {/*<div className="card-image">
               <img src={posts.photo} alt="" />
-            </div>
-
-            {/* card content */}
-            <div className="card-content">
-              <p>{posts.body}</p>
-              <p
-                style={{ fontWeight: "bold", cursor: "pointer" }}
-                onClick={() => {
-                  toggleComment(posts);
-                }}
-              >
-                View all comments
-              </p>
+        </div>*/}
+            {/* new code*/}
+            <Carousel images={images} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent:"space-between" }}>
+              {/* card content */}
+              <div className="card-content">
+                <p>{posts.body}</p>
+                <p
+                  style={{ fontWeight: "bold", cursor: "pointer" }}
+                  onClick={() => {
+                    toggleComment(posts);
+                  }}
+                >
+                  View all comments
+                </p>
+              </div>
+              <Generate images={images} text={posts.body} />
             </div>
 
             {/* add comments */}
@@ -208,7 +225,7 @@ export default function Home() {
                 style={{ borderBottom: "1px solid #00000029" }}
               >
                 {item.comments.map((comment) => {
-                  comment.comment ="   "+comment.comment;
+                  comment.comment = "   " + comment.comment;
                   return (
                     <p className="comm" key={comment._id}>
                       <span
@@ -217,7 +234,7 @@ export default function Home() {
                       >
                         {comment.postedBy.name}:
                       </span>
-                      <span className="commentText">{  comment.comment}</span>
+                      <span className="commentText">{comment.comment}</span>
                     </p>
                   );
                 })}
@@ -227,7 +244,6 @@ export default function Home() {
 
               {/* add comments */}
               <div className="add-comment">
-                <span className="material-symbols-outlined">Mood</span>
                 <input
                   type="text"
                   name=""
@@ -260,6 +276,7 @@ export default function Home() {
           </div>
         </div>
       )}
+      <Bot/>
     </div>
   );
 }

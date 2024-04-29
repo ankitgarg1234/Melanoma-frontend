@@ -13,7 +13,7 @@ import CreatePost from './components/screens/CreatePost';
 import Modal from './components/screens/Modal';
 import UserProfile from './components/screens/UserProfile';
 import MyFollowingPost from './components/screens/MyFollowingPost';
-
+import ImageView from './components/Carousel/ImageView';
 function App() {
   
   const [userLogin, setUserLogin] = useState(false)
@@ -37,18 +37,24 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <LoginContext.Provider value={{setUserLogin, setModalOpen, setLoggedUser}}>
-          <Navbar login={userLogin}/>
+        <LoginContext.Provider
+          value={{ setUserLogin, setModalOpen, setLoggedUser }}
+        >
+          <Navbar login={userLogin} />
           <Routes>
-            <Route path='/' element={<Home/>}></Route>
-            <Route path='/signup' element={<SignUp/>}></Route>
-            <Route path='/signin' element={<SignIn/>}></Route>
-            <Route exact path='/profile' element={<Profile/>}></Route>
-            <Route path='/createPost' element={<CreatePost loggedUser={loggedUser} />}></Route>
-            <Route path='/profile/:userid' element={<UserProfile/>}></Route>
-            <Route path='/followingpost' element={<MyFollowingPost/>}></Route>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/signup" element={<SignUp />}></Route>
+            <Route path="/signin" element={<SignIn />}></Route>
+            <Route exact path="/profile" element={<Profile />}></Route>
+            <Route
+              path="/createPost"
+              element={<CreatePost loggedUser={loggedUser} />}
+            ></Route>
+            <Route path="/profile/:userid" element={<UserProfile />}></Route>
+            <Route path="/followingpost" element={<MyFollowingPost />}></Route>
+            <Route path="/image" element={<ImageView />} />
           </Routes>
-          <ToastContainer theme='dark'/>
+          <ToastContainer theme="dark" />
           {modalOpen && <Modal setModalOpen={setModalOpen}></Modal>}
         </LoginContext.Provider>
       </div>
